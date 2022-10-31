@@ -7,4 +7,17 @@ class Song
     @album = album
   end
 
+  def self.create_table
+    sql = <<-SQL
+      CREATE TABLE IF NOT EXISTS songs (
+        id INTEGER PRIMARY KEY,
+        name TEXT,
+        album TEXT
+      )
+      SQL
+    DB[:conn].execute(sql)
+    # checking if table created successfully
+    # DB[:conn].execute("PRAGMA table_info(songs)")
+    
+  end
 end
