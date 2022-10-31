@@ -1,10 +1,11 @@
 class Song
 
-  attr_accessor :name, :album
+  attr_accessor :name, :album, :id
 
-  def initialize(name:, album:)
+  def initialize(name:, album:, id: nil)
     @name = name
     @album = album
+
   end
 
   def self.create_table
@@ -27,5 +28,14 @@ class Song
       VALUES (?, ?)
     SQL
     DB[:conn].execute(sql, self.name, self.album)
+
+    # assigning the  @id attribute to the id of the newly created row.
+    @id = DB[:conn].execute("SELECT last_insert_rowid() FROM songs")[0][0]
+    self
+  end
+
+  def self.create(name:, album:)
+    song = Song.new(name: name, album: album)
+    song.save
   end
 end
