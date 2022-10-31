@@ -20,4 +20,12 @@ class Song
     # DB[:conn].execute("PRAGMA table_info(songs)")
     
   end
+
+  def save
+    sql = <<-SQL
+      INSERT INTO songs (name, album)
+      VALUES (?, ?)
+    SQL
+    DB[:conn].execute(sql, self.name, self.album)
+  end
 end
